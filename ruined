@@ -1,0 +1,76 @@
+import random
+
+class Artifact:
+    def __init__(self, name, power):
+        self.name = name
+        self.power = power
+
+class Temple:
+    def __init__(self, name, artifacts):
+        self.name = name
+        self.artifacts = artifacts
+
+    def explore(self):
+        print(f"You entered the {self.name} temple.")
+        if not self.artifacts:
+            print("The temple is empty. There are no artifacts here.")
+            return None
+        else:
+            artifact = random.choice(self.artifacts)
+            print(f"You found {artifact.name}!")
+            self.artifacts.remove(artifact)
+            return artifact
+
+class Village:
+    def __init__(self, name, artifacts_needed):
+        self.name = name
+        self.artifacts_needed = artifacts_needed
+        self.artifacts_collected = []
+
+    def restore(self):
+        if len(self.artifacts_collected) == len(self.artifacts_needed):
+            print(f"Congratulations! You have collected all artifacts needed to restore {self.name} village.")
+        else:
+            print("You don't have enough artifacts to restore the village yet.")
+
+# Define artifacts
+artifacts = [
+    Artifact("Golden Mask", 10),
+    Artifact("Crystal Skull", 15),
+    Artifact("Ancient Relic", 20)
+]
+
+# Define temples
+temples = [
+    Temple("Temple of the Sun", artifacts[:]),
+    Temple("Temple of the Moon", artifacts[:]),
+    Temple("Temple of the Stars", artifacts[:])
+]
+
+# Define village
+aztec_village = Village("Aztec", artifacts)
+
+# Main game loop
+while True:
+    print("\nAvailable actions:")
+    print("1. Explore a temple")
+    print("2. Restore the village")
+    print("3. Quit")
+
+    choice = input("Enter your choice: ")
+
+    if choice == "1":
+        temple = random.choice(temples)
+        artifact_found = temple.explore()
+        if artifact_found:
+            aztec_village.artifacts_collected.append(artifact_found)
+
+    elif choice == "2":
+        aztec_village.restore()
+
+    elif choice == "3":
+        print("Thanks for playing!")
+        break
+
+    else:
+        print("Invalid choice. Please try again.")
